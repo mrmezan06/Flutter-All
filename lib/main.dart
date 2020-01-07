@@ -16,10 +16,11 @@ class MyApp extends StatelessWidget {
         ),
         body: SafeArea(
           child: Container(
-            height: 100,
-            width: 100,
+            height: 200,
+            width: 200,
           margin: EdgeInsets.fromLTRB(100, 100, 20, 30),
-          alignment: Alignment.center,
+          padding: EdgeInsets.all(40),
+          //alignment: Alignment.center,
           color: Colors.white,
             child: Text("Hello Baby"),
           )
