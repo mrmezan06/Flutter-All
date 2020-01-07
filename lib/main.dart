@@ -7,24 +7,22 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: Colors.lightBlue,
         appBar: AppBar(
           backgroundColor: Colors.red,
           title: Center(
             child: Text("Home"),
           ),
         ),
-        body: Center(
+        body: SafeArea(
           child: Container(
-            height: 120.0,
-            width: 120.0,
-            color: Colors.lightGreenAccent,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: FlutterLogo(
-                size: 60,
-              ),
-            ),
-          ),
+            height: 100,
+            width: 100,
+          margin: EdgeInsets.symmetric(vertical: 50,horizontal: 10),
+          alignment: Alignment.center,
+          color: Colors.white,
+            child: Text("Hello Baby"),
+          )
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.red,
