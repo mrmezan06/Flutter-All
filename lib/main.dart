@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
           child: Container(
             height: 100,
             width: 100,
-          margin: EdgeInsets.symmetric(vertical: 50,horizontal: 10),
+          margin: EdgeInsets.only(left: 40,top: 50,right: 10,bottom: 0),
           alignment: Alignment.center,
           color: Colors.white,
             child: Text("Hello Baby"),
