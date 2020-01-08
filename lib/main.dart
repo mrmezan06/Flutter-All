@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
 
 main() {
   runApp(MaterialApp(home: PhysicsCardDragDemo()));
@@ -30,8 +31,15 @@ class DraggableCardState extends State<DraggableCard> with SingleTickerProviderS
 
   @override
   void initState() {
-    controller = AnimationController(vsync: this, duration: Duration(seconds: 1));
     super.initState();
+
+    controller = AnimationController(vsync: this, duration: Duration(seconds: 1));
+    controller.addListener((){
+      setState(() {
+        dragAlignment = animation.value;
+      });
+    });
+
   }
   @override
   void dispose() {
@@ -43,7 +51,9 @@ class DraggableCardState extends State<DraggableCard> with SingleTickerProviderS
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return GestureDetector(
-      onPanDown: (details){},
+      onPanDown: (details){
+        controller.stop();
+      },
       onPanUpdate: (details){
         setState(() {
           dragAlignment += Alignment(
@@ -52,7 +62,9 @@ class DraggableCardState extends State<DraggableCard> with SingleTickerProviderS
           );
         });
       },
-      onPanEnd: (details){},
+      onPanEnd: (details){
+        runAnimation(details.velocity.pixelsPerSecond, size);
+      },
       child: Align(
         alignment: dragAlignment,
         child: Card(
@@ -60,6 +72,33 @@ class DraggableCardState extends State<DraggableCard> with SingleTickerProviderS
         ),
     )
     );
+  }
+  Animation<Alignment> animation;
+
+  void runAnimation(Offset pixelsPerSecond,Size size) {
+    animation = controller.drive(
+      AlignmentTween(
+        begin: dragAlignment,
+        end: Alignment.center,
+      ),
+    );
+
+    final unitsPerSecondX = pixelsPerSecond.dx / size.width;
+    final unitsPerSecondY = pixelsPerSecond.dy / size.height;
+    final unitsPerSecond = Offset(unitsPerSecondX, unitsPerSecondY);
+    final unitVelocity = unitsPerSecond.distance;
+
+    const spring = SpringDescription(
+      mass: 30,
+      stiffness: 1,
+      damping: 1,
+    );
+
+    final simulation = SpringSimulation(spring, 0, 1, -unitVelocity);
+    controller.animateWith(simulation);
+
+    controller.reset();
+    controller.forward();
   }
 
 }
