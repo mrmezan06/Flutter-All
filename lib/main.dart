@@ -28,7 +28,13 @@ class LoginPageState extends State<LoginPage>{
     return new Scaffold(
       backgroundColor: Colors.green,
       body: new Stack(
-        
+        fit: StackFit.expand,
+        children: <Widget>[
+          new Image(image: AssetImage('assets/girl.jpg'),
+            fit: BoxFit.cover,
+
+          )
+        ],
       ),
     );
   }
